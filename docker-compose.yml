@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    ports:
+      - "5434:5432"
+
+  backend:
+    build:
+      context: .
+    volumes:
+      - ./:/code/:cached
+    environment:
+      - SCHOOL_URL
+      - KINDERGARDEN_URL
+      - VET_URL
+      - CLINIC_URL
+      - GEOPARSER
+      - DATABASE
+      - ZOO_URL
+      - CONSULATE_URL
+      - THEATRE_URL
+      - RESTAURANT_URL
+      - MUSEUM_URL
+      - CINEMA_URL
+      - SIGHTSEEING_URL
+      - HOTEL_URL
+      - EXHIBITION_HALL_URL
+      - PASS_TABLE_URL
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 5001:5000
+
+volumes:
+  pg_data:

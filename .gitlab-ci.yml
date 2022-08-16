@@ -1,0 +1,26 @@
+image: docker:19.03.12
+
+services:
+  - docker:19.03.12-dind
+
+stages:
+  - deploy
+
+before_script:
+  - apk update
+  - apk upgrade
+  - apk add postgresql-dev
+  - apk add postgresql-dev musl-dev
+  - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev rust cargo make curl
+  - pip install --upgrade pip
+  - pip install docker-compose
+  - docker-compose --version
+
+
+Deploy:
+  stage: deploy
+  script:
+    - ifconfig -a
+    - ls
+    - docker-compose build
+    - docker-compose up -d
